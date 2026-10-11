@@ -1,17 +1,17 @@
 import type { MetadataRoute } from "next";
 import { getDictionary } from "@/lib/dictionaries";
-import { defaultLocale } from "@/lib/i18n";
+import { defaultLocale, dirOf } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   const { meta } = getDictionary(defaultLocale);
 
   return {
-    name: `${site.nameAr} — ${site.name}`,
+    name: `${site.name} — ${site.nameAr}`,
     short_name: site.name,
     description: meta.description,
     lang: defaultLocale,
-    dir: "rtl",
+    dir: dirOf(defaultLocale),
     start_url: "/",
     display: "standalone",
     background_color: site.themeColor,

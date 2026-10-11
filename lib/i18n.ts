@@ -1,8 +1,8 @@
-export const locales = ["ar", "en"] as const;
+export const locales = ["en", "ar"] as const;
 export type Locale = (typeof locales)[number];
 
-/** Arabic is the default: it lives at "/" while English lives at "/en". */
-export const defaultLocale: Locale = "ar";
+/** English is the default: it lives at "/" while Arabic lives at "/ar". */
+export const defaultLocale: Locale = "en";
 
 export const hasLocale = (value: string): value is Locale => (locales as readonly string[]).includes(value);
 

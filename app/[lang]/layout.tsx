@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Aref_Ruqaa, Bebas_Neue, Cairo, Inter, Lalezar, Permanent_Marker } from "next/font/google";
 import { getDictionary } from "@/lib/dictionaries";
-import { dirOf, hasLocale, localePath, locales, ogLocale } from "@/lib/i18n";
+import { defaultLocale, dirOf, hasLocale, localePath, locales, ogLocale } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import "../globals.css";
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     category: "fitness",
     alternates: {
       canonical: localePath(lang),
-      languages: { ar: localePath("ar"), en: localePath("en"), "x-default": localePath("ar") },
+      languages: { ar: localePath("ar"), en: localePath("en"), "x-default": localePath(defaultLocale) },
     },
     openGraph: {
       type: "website",

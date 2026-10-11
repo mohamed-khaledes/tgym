@@ -35,6 +35,7 @@ const en = {
     cta: "Start Training",
     tour: "Take the tour",
     imageAlt: "Inside T Gym",
+    scroll: "Scroll",
     stats: ["Active Members", "Expert Coaches", "Transformations", "Dedication"],
   },
   training: {
@@ -82,6 +83,12 @@ const en = {
     members2: "and start your journey",
     imageAlt: "T Gym light tunnel",
   },
+  whatsapp: {
+    label: "Chat with T Gym on WhatsApp",
+    message: "Hi T Gym! I would like to know more about memberships.",
+    tooltip: "Chat with us",
+  },
+  toTop: "Back to top",
   footer: {
     tagline: "Built different. Train with purpose.",
     visit: "Visit Us",

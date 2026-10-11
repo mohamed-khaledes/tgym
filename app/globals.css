@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-brand: #d7141c;
+  --color-brand-dark: #a80f15;
+  --color-ink: #0a0a0a;
+  --font-sans: var(--font-body);
+  --font-display: var(--font-head);
+  --font-script: var(--font-hand);
+  /* Latin display font, used for the "T GYM" wordmark and numbers in both languages */
+  --font-brand: var(--font-bebas);
+}
+
+/* Fonts per language (the variables come from next/font in app/[lang]/layout.tsx) */
+html {
+  --font-body: var(--font-inter), sans-serif;
+  --font-head: var(--font-bebas), sans-serif;
+  --font-hand: var(--font-marker), cursive;
+  scroll-behavior: smooth;
+}
+html[lang="ar"] {
+  --font-body: var(--font-cairo), var(--font-inter), sans-serif;
+  --font-head: var(--font-lalezar), var(--font-bebas), sans-serif;
+  --font-hand: var(--font-ruqaa), cursive;
+}
+
+/* Letter-spacing breaks the joins between Arabic letters */
+[dir="rtl"] [class*="tracking-"] {
+  letter-spacing: 0;
+}
+
+body {
+  background: var(--color-ink);
+  color: #f5f5f5;
+}
+
+/* ---------- Scroll reveal (see components/Reveal.tsx) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+[data-reveal="up"] {
+  transform: translateY(48px);
+}
+[data-reveal="left"] {
+  transform: translateX(-56px);
+}
+[data-reveal="right"] {
+  transform: translateX(56px);
+}
+/* "left"/"right" mean the start/end side, so they mirror in Arabic */
+[dir="rtl"] [data-reveal="left"] {
+  transform: translateX(56px);
+}
+[dir="rtl"] [data-reveal="right"] {
+  transform: translateX(-56px);
+}
+[data-reveal="zoom"] {
+  transform: scale(0.92);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Hero entrance (plays on load, no JS needed) ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+@keyframes slow-zoom {
+  from {
+    transform: scale(1.15);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+.animate-rise {
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.animate-slow-zoom {
+  animation: slow-zoom 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Brush strokes draw themselves in: on load in the hero, on reveal elsewhere */
+.brush-draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.animate-rise.brush-draw path,
+.is-visible .brush-draw path {
+  animation: draw 1.2s cubic-bezier(0.6, 0, 0.2, 1) both;
+  animation-delay: inherit;
+}
+[data-reveal]:not(.is-visible) .brush-draw path {
+  stroke-dashoffset: 1;
+}
+
+/* ---------- Gallery lightbox (see components/Gallery.tsx) ---------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+.lightbox-in {
+  animation: fade-in 0.3s ease-out both;
+}
+.lightbox-slide {
+  animation: slide-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-in,
+  .lightbox-slide {
+    animation: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-rise,
+  .animate-slow-zoom,
+  .brush-draw path {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}

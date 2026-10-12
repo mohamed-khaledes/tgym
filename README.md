@@ -1,39 +1,116 @@
-## Demo: https://tgym1.vercel.app/
-<img width="1903" height="944" alt="tgym" src="https://github.com/user-attachments/assets/45f09b34-5624-4b30-81c2-6c6d1dff0eab" />
+# T Gym — Landing Page
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A bilingual (English / Arabic) landing page for **T Gym**, a gym in Dikirnis, Egypt. Built with Next.js 16 and Tailwind CSS v4.
 
-## Getting Started
+**Live demo:** https://tgym1.vercel.app/
 
-First, run the development server:
+<img width="1903" height="944" alt="T Gym landing page" src="https://github.com/user-attachments/assets/45f09b34-5624-4b30-81c2-6c6d1dff0eab" />
+
+## Features
+
+- **English and Arabic.** English is served at `/` and Arabic at `/ar`, with full right-to-left layout and Arabic fonts (Lalezar, Cairo, Aref Ruqaa).
+- **Sections:** hero with stats, training programs, photo gallery, call to action, and a footer with address, hours and contact links.
+- **Gallery slider.** Click any photo to open a full-screen slider with arrows, thumbnails, keyboard controls (← → Esc) and swipe on mobile. It respects RTL in Arabic.
+- **Animations:** load-in hero, scroll-reveal sections, parallax backgrounds, counting stats and self-drawing brush strokes. All of them are disabled for users who prefer reduced motion.
+- **Sticky navbar** that turns solid on scroll and highlights the current section.
+- **SEO:**
+  - per-language titles and descriptions, with `hreflang` alternates
+  - Open Graph and Twitter share image
+  - `ExerciseGym` structured data (JSON-LD) with address, hours and phone
+  - `sitemap.xml`, `robots.txt` and a web app manifest
+- **Icons:** favicon and app icons generated from the gym's logo.
+
+## Tech stack
+
+- [Next.js 16](https://nextjs.org) (App Router, Cache Components, `proxy.ts`)
+- [React 19](https://react.dev)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- TypeScript
+- No other runtime dependencies. The animations, slider and translations are small hand-written components.
+
+## Getting started
+
+Requires Node.js 20.9 or newer.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 for English, or http://localhost:3000/ar for Arabic.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script          | What it does                     |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Start the dev server             |
+| `npm run build` | Create a production build        |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | Run ESLint                       |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment variables
 
-## Learn More
+| Variable               | Required in production | Description                                                                                                  |
+| ---------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL` | Yes                    | The site's public URL, e.g. `https://tgym1.vercel.app`. Used for canonical links, share images, the sitemap and structured data. Defaults to `http://localhost:3000`. |
 
-To learn more about Next.js, take a look at the following resources:
+## Editing content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You don't need to touch the page components to change the content:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| What you want to change                          | Where                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------- |
+| Phone, social links, opening hours (for Google), site URL | [`lib/site.ts`](lib/site.ts)                          |
+| English text                                     | [`lib/dictionaries/en.ts`](lib/dictionaries/en.ts)            |
+| Arabic text                                      | [`lib/dictionaries/ar.ts`](lib/dictionaries/ar.ts)            |
+| Gallery photos and how many show in the grid     | `sources` and `GRID_COUNT` in [`components/Gallery.tsx`](components/Gallery.tsx) |
+| Hero stats (500+, 15+, …)                        | `stats` in [`app/[lang]/page.tsx`](app/[lang]/page.tsx)       |
+| Brand colors and fonts                           | [`app/globals.css`](app/globals.css)                          |
 
-## Deploy on Vercel
+The English and Arabic dictionaries share one TypeScript type. If you add a key to one and forget the other, the build fails.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Photos live in [`public/images/`](public/images/). To replace a photo, keep the same file name, or update the paths in the files above.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project structure
+
+```
+app/
+  [lang]/
+    layout.tsx      # Root layout: <html lang/dir>, fonts, per-language metadata
+    page.tsx        # The landing page
+  globals.css       # Tailwind theme, fonts per language, animations, RTL fixes
+  sitemap.ts, robots.ts, manifest.ts
+  favicon.ico, icon.png, apple-icon.png, opengraph-image.jpg, twitter-image.jpg
+components/
+  Navbar.tsx        # Sticky navbar, section highlight, mobile menu, language switch
+  Gallery.tsx       # Photo grid + full-screen slider
+  Footer.tsx        # Address (Google Maps link), hours, phone, socials
+  JsonLd.tsx        # Structured data for Google
+  Reveal.tsx        # Scroll-reveal animation wrapper
+  Parallax.tsx      # Parallax background layer
+  CountUp.tsx       # Animated stat counter
+  icons.tsx         # Inline SVG icons
+lib/
+  site.ts           # Language-independent gym details
+  i18n.ts           # Locales, default locale, URL helpers
+  dictionaries/     # en.ts, ar.ts
+proxy.ts            # Serves English at "/" and Arabic at "/ar"
+_originals/         # Original, uncropped photos and logo
+```
+
+### How the language routing works
+
+All pages live under `app/[lang]`. [`proxy.ts`](proxy.ts) rewrites requests without a language prefix to `/en` internally, so English shows at `/`. Arabic is served at `/ar`. Visiting `/en` directly redirects to `/`, so each page has a single public URL.
+
+To change the default language, update `defaultLocale` in [`lib/i18n.ts`](lib/i18n.ts) and `DEFAULT_LOCALE` / `OTHER_LOCALES` in [`proxy.ts`](proxy.ts).
+
+## Deploying
+
+The site deploys to [Vercel](https://vercel.com) with no extra configuration. Remember to set `NEXT_PUBLIC_SITE_URL` in the project's environment variables.
+
+## Contact
+
+**T Gym**, Ashmoun El-Rumman, intersection of Souq Street and Al-Bahr Street, Dikirnis, Dakahlia, Egypt
+📞 +20 103 000 0563 · [Instagram](https://www.instagram.com/tgymoffical) · [Facebook](https://www.facebook.com/tgymoffical)
+
+---
+
+© 2026 Mohamed Khaled

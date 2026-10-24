@@ -48,9 +48,10 @@ Open http://localhost:3000 for English, or http://localhost:3000/ar for Arabic.
 
 ### Environment variables
 
-| Variable               | Required in production | Description                                                                                                  |
-| ---------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL` | Yes                    | The site's public URL, e.g. `https://tgym1.vercel.app`. Used for canonical links, share images, the sitemap and structured data. Defaults to `http://localhost:3000`. |
+| Variable                   | Required | Description                                                                                                  |
+| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL`     | No       | The site's public URL, e.g. `https://tgym1.vercel.app`. Used for canonical links, share images, the sitemap and structured data. On Vercel it defaults to the project's production domain; elsewhere it defaults to `http://localhost:3000`, so set it when hosting anywhere else. |
+| `GOOGLE_SITE_VERIFICATION` | No       | The code from Google Search Console's "HTML tag" verification method. Adds the `google-site-verification` meta tag. |
 
 ## Editing content
 
@@ -104,7 +105,7 @@ To change the default language, update `defaultLocale` in [`lib/i18n.ts`](lib/i1
 
 ## Deploying
 
-The site deploys to [Vercel](https://vercel.com) with no extra configuration. Remember to set `NEXT_PUBLIC_SITE_URL` in the project's environment variables.
+The site deploys to [Vercel](https://vercel.com) with no extra configuration. The site URL is picked up from Vercel automatically, including a custom domain once you add one.
 
 ## Contact
 

@@ -53,6 +53,10 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       googleBot: { index: true, follow: true, "max-image-preview": "large" },
     },
     formatDetection: { telephone: true, address: true },
+    // Google Search Console "HTML tag" verification: set GOOGLE_SITE_VERIFICATION to the code Google gives you
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : undefined,
     other: { "geo.region": site.address.regionCode, "geo.placename": site.address.city },
   };
 }

@@ -13,7 +13,7 @@ export default function JsonLd({ lang, dict }: { lang: Locale; dict: Dictionary 
         "@type": "ExerciseGym",
         "@id": `${site.url}/#gym`,
         name: site.name,
-        alternateName: site.nameAr,
+        alternateName: site.alternateNames,
         description: dict.meta.description,
         url: pageUrl,
         logo: `${site.url}/icon-512.png`,

@@ -1,10 +1,12 @@
 const en = {
   meta: {
-    title: "T Gym | Built Different — Gym in Dikirnis, Egypt",
+    title: "T Gym (TGYM) | Built Different — Gym in Dikirnis, Egypt",
     description:
-      "T Gym in Dikirnis, Egypt — brand new machines, a full free-weight zone, strength & conditioning programs and 1-on-1 personal training. Open 7 days a week.",
+      "T Gym (TGYM) in Dikirnis, Egypt — brand new machines, a full free-weight zone, strength & conditioning programs and 1-on-1 personal training. Open 7 days a week.",
     keywords: [
       "T Gym",
+      "TGYM",
+      "tgym Dikirnis",
       "gym in Dikirnis",
       "Dikirnis gym",
       "gym in Dakahlia",

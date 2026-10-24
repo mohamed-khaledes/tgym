@@ -1,12 +1,25 @@
 /**
+ * The site's public URL, used for canonical links, the sitemap, robots.txt and structured data.
+ * Order: NEXT_PUBLIC_SITE_URL if set → the Vercel production domain (set automatically by Vercel) → localhost.
+ */
+function getSiteUrl() {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/+$/, "");
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercel) return `https://${vercel}`;
+  return "http://localhost:3000";
+}
+
+/**
  * Language-independent details about the gym.
  * Translated text (descriptions, address lines, labels) lives in lib/dictionaries.
  */
 export const site = {
   name: "T Gym",
   nameAr: "تي جيم",
-  // Set NEXT_PUBLIC_SITE_URL to your real domain when you deploy (e.g. https://tgym.com)
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  /** Other ways people write the name, so searches like "tgym" match */
+  alternateNames: ["TGYM", "TGym", "تي جيم"],
+  url: getSiteUrl(),
   themeColor: "#0a0a0a",
   brandColor: "#d7141c",
 
